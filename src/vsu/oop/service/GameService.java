@@ -57,24 +57,62 @@ public class GameService {
         return board;
     }
 
-    private Map<Character, Integer> toNumberMap() {
-        Map<Character, Integer> numberMap = new HashMap<>();
-        List<Character> ch = new ArrayList<>();
-        for (char i = 'a'; i <= 'j'; i++) {
-            ch.add(i);
+    private List<Integer> fillIntList(int count) {
+        List<Integer> integerList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            integerList.add(i);
         }
-        for (Integer i = 0; i < 10; i++) {
-            numberMap.put(ch.get(i), i);
-        }
-        numberMap.put('w', 10);
-        return numberMap;
+        return integerList;
     }
 
+    private List<Character> fillCharList() {
+        List<Character> charList = new ArrayList<>();
+        for (char i = 'a'; i <= 'j'; i++) {
+            charList.add(i);
+        }
+        return charList;
+    }
 
+    private List<String> toStringList(List<Character> charList) {
+        List<String> stringList = new ArrayList<>();
+        for (int i = 0; i < charList.size(); i++) {
+            stringList.add(charList.get(i).toString());
+        }
+        return stringList;
+    }
+
+    private List<String> toStringListNumber() {
+        List<Character> charList = fillCharList();
+        List<Integer> integerList = fillIntList(11);
+        List<String> stringList = toStringList(charList);
+        List<String> numberList =  new ArrayList<>();
+
+        for (int ch = 0; ch < 10; ch++) {
+            for (int i = 0; i < 10; i++) {
+                String s = stringList.get(ch) + integerList.get(i);
+                numberList.add(s);
+            }
+        }
+        numberList.add("w1");
+        numberList.add("w2");
+        numberList.add("w3");
+        numberList.add("w4");
+        return numberList;
+    }
 
     private Map<String, Cell> boardToMap(List<List<Cell>> board) {
         Map<String, Cell> newBoard = new HashMap<>();
-        Map<Character, Integer> numberMap = toNumberMap();
+        List<Character> charList = fillCharList();
+        List<Integer> integerList = fillIntList(11);
+        List<String> stringList = toStringList(charList);
+        List<String> numberList =  new ArrayList<>();
+
+        for (int ch = 0; ch < 11; ch++) {
+            for (int i = 0; i < 10; i++) {
+               String s = stringList.get(ch) + integerList.get(i);
+               numberList.add(s);
+            }
+        }
 
         return newBoard;
     }
