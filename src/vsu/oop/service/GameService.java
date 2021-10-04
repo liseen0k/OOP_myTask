@@ -19,11 +19,25 @@ public class GameService {
     }
 
 
-
-    private List<List<Cell>> createBoard() { // добавить еще 4 клетки
+    private List<Cell> createCell4() {
+        List<Cell> cell4 = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            cell4.add(new Cell());
+        }
+        return cell4;
+    }
+    private List<List<Cell>> createBoard() {
         List<Cell> down = createHorizontalLine(10);
+        List<Cell> cell4 = createCell4();
         List<List<Cell>> board = new ArrayList<>();
         board.add(down);
+
+        down.get(0).setSouth_west(cell4.get(0));
+        cell4.get(0).setNorth_ost(down.get(0));
+
+        down.get(9).setSouth_ost(cell4.get(1));
+        cell4.get(1).setNorth_west(down.get(9));
+
        for (int i = 0; i < 9; i++) {
            List<Cell> up = createHorizontalLine(10);
 
@@ -54,6 +68,11 @@ public class GameService {
            down = up;
 
        }
+        down.get(0).setNorth_west(cell4.get(2));
+        cell4.get(2).setSouth_ost(down.get(0));
+
+        down.get(9).setNorth_ost(cell4.get(3));
+        cell4.get(3).setSouth_west(down.get(9));
         return board;
     }
 
@@ -102,15 +121,11 @@ public class GameService {
 
     private Map<String, Cell> boardToMap(List<List<Cell>> board) {
         Map<String, Cell> newBoard = new HashMap<>();
-        List<Character> charList = fillCharList();
-        List<Integer> integerList = fillIntList(11);
-        List<String> stringList = toStringList(charList);
-        List<String> numberList =  new ArrayList<>();
+        List<String> numberCellList = toStringListNumber();
 
-        for (int ch = 0; ch < 11; ch++) {
-            for (int i = 0; i < 10; i++) {
-               String s = stringList.get(ch) + integerList.get(i);
-               numberList.add(s);
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.get(i).size(); j++) {
+
             }
         }
 
