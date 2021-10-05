@@ -175,9 +175,20 @@ public class GameService {
         return cellList;
     }
 
-    public Game createNewGame() {
+    private List<Player> addPlayers(int number) {
+        List<Player> playerList = new ArrayList<>();
+        for (int i = 0; i < number; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+        return playerList;
+    }
+
+    public Game createNewGame(int playerCount) {
         Map<String, Cell> chessBoard = createChessBoard();
-        return null;
+        Game game = new Game(chessBoard);
+        List<Player> players = addPlayers(playerCount);
+        return game;
     }
 
     public void play(Game game) {

@@ -6,7 +6,9 @@ import java.util.Map;
 
 public class Game {
 
-    private final Cell leftBottom;
+    private Cell leftBottom;
+
+    private Map<String, Cell> board;
 
     private final Map<Player, Direction> preferredDirection = new HashMap<>();
 
@@ -18,8 +20,8 @@ public class Game {
 
     private List<Step> steps;
 
-    public Game(Cell leftBottom) {
-        this.leftBottom = leftBottom;
+    public Game(Map<String, Cell> board) {
+        this.board = board;
     }
 
     public Cell getLeftBottom() {

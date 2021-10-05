@@ -19,7 +19,7 @@ public class PawnService implements IFigureService {
     @Override
     public Step moveFigure(Game game, Figure figure, Cell target) {
         Step step = new Step();
-
+        // получать у фигуры клетку на которой она стоит и из нее высчитывать целевую клетку
         return step;
     }
 }
