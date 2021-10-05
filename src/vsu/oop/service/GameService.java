@@ -26,9 +26,9 @@ public class GameService {
         }
         return cell4;
     }
-    private List<List<Cell>> createBoard() {
+    private List<List<Cell>> createBoardList() {
         List<Cell> down = createHorizontalLine(10);
-        List<Cell> cell4 = createCell4();
+        List<Cell> cell4 = createCell4(); // переназначить как на доске
         List<List<Cell>> board = new ArrayList<>();
         board.add(down);
 
@@ -73,6 +73,8 @@ public class GameService {
 
         down.get(9).setNorth_ost(cell4.get(3));
         cell4.get(3).setSouth_west(down.get(9));
+
+        board.add(cell4);
         return board;
     }
 
@@ -119,17 +121,32 @@ public class GameService {
         return numberList;
     }
 
+    private List<Cell> boarToCellList(List<List<Cell>> board) {
+        List<Cell> boardAsList = new ArrayList<>();
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.get(i).size(); j++) {
+                boardAsList.add(board.get(i).get(j));
+            }
+        }
+        return boardAsList;
+    }
+
     private Map<String, Cell> boardToMap(List<List<Cell>> board) {
         Map<String, Cell> newBoard = new HashMap<>();
         List<String> numberCellList = toStringListNumber();
-
-        for (int i = 0; i < board.size(); i++) {
-            for (int j = 0; j < board.get(i).size(); j++) {
-
-            }
+        List<Cell> boardAsList = boarToCellList(board);
+        for (int i = 0; i < numberCellList.size(); i++) {
+            newBoard.put(numberCellList.get(i), boardAsList.get(i));
+            newBoard.get(numberCellList.get(i)).setName(numberCellList.get(i));
         }
 
         return newBoard;
+    }
+
+    public Map<String, Cell> createChessBoard() {
+        List<List<Cell>> boardAsList = createBoardList();
+        Map<String, Cell> boardAsMap = boardToMap(boardAsList);
+        return boardAsMap;
     }
 
     private List<Cell> createHorizontalLine(int length) {
@@ -159,7 +176,7 @@ public class GameService {
     }
 
     public Game createNewGame() {
-        createBoard();
+        Map<String, Cell> chessBoard = createChessBoard();
         return null;
     }
 

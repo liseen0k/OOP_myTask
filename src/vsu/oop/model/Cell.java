@@ -2,6 +2,16 @@ package vsu.oop.model;
 
 public class Cell {
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private Cell north;
     private Cell south;
     private Cell ost;
