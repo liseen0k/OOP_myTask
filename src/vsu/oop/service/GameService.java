@@ -68,11 +68,11 @@ public class GameService {
            down = up;
 
        }
-        down.get(0).setNorth_west(cell4.get(2));
-        cell4.get(2).setSouth_ost(down.get(0));
+        down.get(0).setNorth_ost(cell4.get(2));
+        cell4.get(2).setSouth_west(down.get(0));
 
-        down.get(9).setNorth_ost(cell4.get(3));
-        cell4.get(3).setSouth_west(down.get(9));
+        down.get(9).setNorth_west(cell4.get(3));
+        cell4.get(3).setSouth_ost(down.get(9));
 
         board.add(cell4);
         return board;
