@@ -184,10 +184,51 @@ public class GameService {
         return playerList;
     }
 
+    private List<Figure> setFigureList() {
+        List<Figure> figureList = new ArrayList<>();
+        figureList.add(new Figure(FigureType.CHAMPION));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.ROOK));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.KNIGHT));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.BISHOP));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.QUEEN));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.KING));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.BISHOP));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.KNIGHT));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.ROOK));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.CHAMPION));
+        figureList.add(new Figure(FigureType.PAWN));
+        figureList.add(new Figure(FigureType.WIZARD));
+        figureList.add(new Figure(FigureType.WIZARD));
+        return figureList;
+    }
+
+    private void giveFigureToPlayers(Game game, List<Player> players) {
+        List<Figure> player1figureList = setFigureList();
+        List<Figure> player2figureList = setFigureList();
+        Map<Player, List<Figure>> map = new HashMap<>();
+        map.put(players.get(0), player1figureList);
+        Map<Player, List<Figure>> map1 = new HashMap<>();
+        map.put(players.get(1), player2figureList);
+        game.setPlayerListMap1(map);
+        game.setPlayerListMap2(map1);
+    }
+
     public Game createNewGame(int playerCount) {
         Map<String, Cell> chessBoard = createChessBoard();
         Game game = new Game(chessBoard);
         List<Player> players = addPlayers(playerCount);
+        giveFigureToPlayers(game, players);
+
+
         return game;
     }
 
@@ -205,7 +246,7 @@ public class GameService {
 
     private void doStep(Game game) {
         Player p = null;
-        List<Figure> figures = game.getPlayerListMap().get(p);
+        List<Figure> figures = game.getPlayerListMap1().get(p);
         for(Figure f: figures) {
             IFigureService service = figureServiceMap.get(f.getType());
             List<Cell> cellsToMove = service.getVariants(game, f);

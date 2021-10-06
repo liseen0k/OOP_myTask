@@ -12,7 +12,8 @@ public class Game {
 
     private final Map<Player, Direction> preferredDirection = new HashMap<>();
 
-    private Map<Player, List<Figure>> playerListMap = new HashMap<>();
+    private Map<Player, List<Figure>> playerListMap1 = new HashMap<>();
+    private Map<Player, List<Figure>> playerListMap2 = new HashMap<>();
 
     private Map<Figure, Cell> m2;
 
@@ -28,7 +29,19 @@ public class Game {
         return leftBottom;
     }
 
-    public Map<Player, List<Figure>> getPlayerListMap() {
-        return playerListMap;
+    public Map<Player, List<Figure>> getPlayerListMap1() {
+        return playerListMap1;
+    }
+
+    public void setPlayerListMap1(Map<Player, List<Figure>> playerListMap1) {
+        this.playerListMap1 = playerListMap1;
+    }
+
+    public Map<Player, List<Figure>> getPlayerListMap2() {
+        return playerListMap2;
+    }
+
+    public void setPlayerListMap2(Map<Player, List<Figure>> playerListMap2) {
+        this.playerListMap2 = playerListMap2;
     }
 }

@@ -8,6 +8,8 @@ public class Figure {
         this.type = type;
     }
 
+    public Figure() {}
+
     public FigureType getType() {
         return type;
     }
