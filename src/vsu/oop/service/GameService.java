@@ -28,14 +28,14 @@ public class GameService {
     }
     private List<List<Cell>> createBoardList() {
         List<Cell> down = createHorizontalLine(10);
-        List<Cell> cell4 = createCell4(); // переназначить как на доске
+        List<Cell> cell4 = createCell4();
         List<List<Cell>> board = new ArrayList<>();
         board.add(down);
 
         down.get(0).setSouth_west(cell4.get(0));
-        cell4.get(0).setNorth_ost(down.get(0));
+        cell4.get(0).setNorth_east(down.get(0));
 
-        down.get(9).setSouth_ost(cell4.get(1));
+        down.get(9).setSouth_east(cell4.get(1));
         cell4.get(1).setNorth_west(down.get(9));
 
        for (int i = 0; i < 9; i++) {
@@ -44,17 +44,17 @@ public class GameService {
            up.get(0).setSouth(down.get(0));
            down.get(0).setNorth(up.get(0));
 
-           up.get(0).setSouth_ost(down.get(1));
+           up.get(0).setSouth_east(down.get(1));
            down.get(1).setNorth_west(up.get(1));
 
            for (int j = 1; j < 9; j++) {
                up.get(j).setSouth_west(down.get(j-1));
-               down.get(j-1).setNorth_ost(up.get(j));
+               down.get(j-1).setNorth_east(up.get(j));
 
                up.get(j).setSouth(down.get(j));
                down.get(j).setNorth(up.get(j));
 
-               up.get(j).setSouth_ost(down.get(j+1));
+               up.get(j).setSouth_east(down.get(j+1));
                down.get(j+1).setNorth_west(up.get(j));
            }
 
@@ -62,17 +62,17 @@ public class GameService {
            down.get(9).setNorth(up.get(9));
 
            up.get(9).setSouth_west(down.get(8));
-           down.get(8).setNorth_ost(up.get(9));
+           down.get(8).setNorth_east(up.get(9));
 
            board.add(up);
            down = up;
 
        }
-        down.get(0).setNorth_ost(cell4.get(2));
+        down.get(0).setNorth_east(cell4.get(2));
         cell4.get(2).setSouth_west(down.get(0));
 
         down.get(9).setNorth_west(cell4.get(3));
-        cell4.get(3).setSouth_ost(down.get(9));
+        cell4.get(3).setSouth_east(down.get(9));
 
         board.add(cell4);
         return board;
@@ -167,10 +167,10 @@ public class GameService {
 
     private List<Cell> connectCellsHorizontal(List<Cell> cellList) {
         for (int i = 1; i < cellList.size()-1; i++) {
-            cellList.get(i).setOst(cellList.get(i+1));
+            cellList.get(i).setEast(cellList.get(i+1));
             cellList.get(i).setWest(cellList.get(i-1));
         }
-        cellList.get(0).setOst(cellList.get(1));
+        cellList.get(0).setEast(cellList.get(1));
         cellList.get(cellList.size()-1).setWest(cellList.get(cellList.size()-2));
         return cellList;
     }
@@ -220,6 +220,12 @@ public class GameService {
         map.put(players.get(1), player2figureList);
         game.setPlayerListMap1(map);
         game.setPlayerListMap2(map1);
+    }
+
+    private Map<Figure, Cell> figureOnBoard(Map<Player, Figure> playerMap, Map<String, Cell> cellMap) {
+        Map<Figure, Cell> figures = new HashMap<>();
+        
+        return figures;
     }
 
     public Game createNewGame(int playerCount) {
