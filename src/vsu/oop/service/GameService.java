@@ -247,8 +247,8 @@ public class GameService {
         List<Figure> player1 = giveToOnePlayer(game);
         List<Figure> player2 = giveToAnotherPlayer(game);
 
-
-
+        game.getPlayerListOfFiguresMap().put(players.get(0), player1);
+        game.getPlayerListOfFiguresMap().put(players.get(1), player2);
     }
 
     private Map<Figure, Cell> figureOnBoard(Map<Player, Figure> playerMap, Map<String, Cell> cellMap) {
