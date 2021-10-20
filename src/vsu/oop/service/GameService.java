@@ -184,23 +184,6 @@ public class GameService {
         return playerList;
     }
 
-    private List<Figure> setFigureList() {
-        List<Figure> figureList = new ArrayList<>();
-       for (int i = 0; i < 10; i++) {
-           figureList.add(new Figure(FigureType.PAWN));
-       }
-        figureList.add(new Figure(FigureType.CHAMPION));
-        figureList.add(new Figure(FigureType.ROOK));
-        figureList.add(new Figure(FigureType.KNIGHT));
-        figureList.add(new Figure(FigureType.BISHOP));
-        figureList.add(new Figure(FigureType.QUEEN));
-        figureList.add(new Figure(FigureType.KING));
-        figureList.add(new Figure(FigureType.BISHOP));
-        figureList.add(new Figure(FigureType.KNIGHT));
-        figureList.add(new Figure(FigureType.ROOK));
-        figureList.add(new Figure(FigureType.CHAMPION));
-        return figureList;
-    }
 
     private List<Figure> giveToOnePlayer(Game game) {
         List<Figure> figureList = new ArrayList<>();
@@ -218,6 +201,9 @@ public class GameService {
                     figureList.add((Figure) entry.getValue());
                     break;
                 }
+            }
+            if (entry.getKey() == "w1" || entry.getKey() == "w2") {
+                figureList.add((Figure) entry.getValue());
             }
         }
         return figureList;
@@ -238,6 +224,9 @@ public class GameService {
                     figureList.add((Figure) entry.getValue());
                     break;
                 }
+            }
+           if (entry.getKey() == "w3" || entry.getKey() == "w4") {
+                figureList.add((Figure) entry.getValue());
             }
         }
         return figureList;
@@ -284,6 +273,9 @@ public class GameService {
             else if (entry.getKey() == "f0" || entry.getKey() == "f9") {
                 game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.KING));
             }
+            else if (entry.getKey() == "w1" || entry.getKey() == "w2" || entry.getKey() == "w3" || entry.getKey() == "w4") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.WIZARD));
+            }
             else game.getCellFigureMap().put((Cell) entry.getValue(), null);
         }
     }
@@ -293,9 +285,7 @@ public class GameService {
         Game game = new Game(chessBoard);
         List<Player> players = addPlayers(playerCount);
         figuresToBoard(game);
-
-
-
+        giveFigureToPlayers(game, players);
         return game;
     }
 
