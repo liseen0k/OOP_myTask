@@ -186,40 +186,69 @@ public class GameService {
 
     private List<Figure> setFigureList() {
         List<Figure> figureList = new ArrayList<>();
+       for (int i = 0; i < 10; i++) {
+           figureList.add(new Figure(FigureType.PAWN));
+       }
         figureList.add(new Figure(FigureType.CHAMPION));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.ROOK));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.KNIGHT));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.BISHOP));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.QUEEN));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.KING));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.BISHOP));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.KNIGHT));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.ROOK));
-        figureList.add(new Figure(FigureType.PAWN));
         figureList.add(new Figure(FigureType.CHAMPION));
-        figureList.add(new Figure(FigureType.PAWN));
-        figureList.add(new Figure(FigureType.WIZARD));
-        figureList.add(new Figure(FigureType.WIZARD));
+        return figureList;
+    }
+
+    private List<Figure> giveToOnePlayer(Game game) {
+        List<Figure> figureList = new ArrayList<>();
+        for (Map.Entry entry: game.getCellFigureMap().entrySet()) {
+            for (char i = 'a'; i <= 'j'; i++) {
+                String d = i + "0";
+                if (entry.getKey() == d) {
+                    figureList.add((Figure) entry.getValue());
+                   break;
+                }
+            }
+            for (char i = 'a'; i <= 'j'; i++) {
+                String d = i + "1";
+                if (entry.getKey() == d) {
+                    figureList.add((Figure) entry.getValue());
+                    break;
+                }
+            }
+        }
+        return figureList;
+    }
+    private List<Figure> giveToAnotherPlayer(Game game) {
+        List<Figure> figureList = new ArrayList<>();
+        for (Map.Entry entry: game.getCellFigureMap().entrySet()) {
+            for (char i = 'a'; i <= 'j'; i++) {
+                String d = i + "9";
+                if (entry.getKey() == d) {
+                    figureList.add((Figure) entry.getValue());
+                    break;
+                }
+            }
+            for (char i = 'a'; i <= 'j'; i++) {
+                String d = i + "8";
+                if (entry.getKey() == d) {
+                    figureList.add((Figure) entry.getValue());
+                    break;
+                }
+            }
+        }
         return figureList;
     }
 
     private void giveFigureToPlayers(Game game, List<Player> players) {
-        List<Figure> player1figureList = setFigureList();
-        List<Figure> player2figureList = setFigureList();
-        Map<Player, List<Figure>> map = new HashMap<>();
-        map.put(players.get(0), player1figureList);
-        Map<Player, List<Figure>> map1 = new HashMap<>();
-        map.put(players.get(1), player2figureList);
-        game.setPlayerListMap1(map);
-        game.setPlayerListMap2(map1);
+        List<Figure> player1 = giveToOnePlayer(game);
+        List<Figure> player2 = giveToAnotherPlayer(game);
+
+
+
     }
 
     private Map<Figure, Cell> figureOnBoard(Map<Player, Figure> playerMap, Map<String, Cell> cellMap) {
@@ -228,11 +257,43 @@ public class GameService {
         return figures;
     }
 
+    private void figuresToBoard(Game game) {
+        for (Map.Entry entry: game.getBoard().entrySet()) {
+            if (entry.getKey() == "a1" || entry.getKey() == "b1" || entry.getKey() == "c1"
+            || entry.getKey() == "d1" || entry.getKey() == "e1" || entry.getKey() == "f1"
+            || entry.getKey() == "g1" || entry.getKey() == "h1" || entry.getKey() == "i1"
+            || entry.getKey() == "j1" || entry.getKey() == "a8" || entry.getKey() == "b8"
+            || entry.getKey() == "c8" || entry.getKey() == "d8" || entry.getKey() == "e8"
+            || entry.getKey() == "f8" || entry.getKey() == "g8" || entry.getKey() == "h8"
+            || entry.getKey() == "i8" || entry.getKey() == "j8") game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.PAWN));
+            else if (entry.getKey() == "a0" || entry.getKey() == "a9" || entry.getKey() == "j0" || entry.getKey() == "j9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.CHAMPION));
+            }
+            else if (entry.getKey() == "b0" || entry.getKey() == "b9" || entry.getKey() == "i0" || entry.getKey() == "i9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.ROOK));
+            }
+            else if (entry.getKey() == "c0" || entry.getKey() == "c9" || entry.getKey() == "h0" || entry.getKey() == "h9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.KNIGHT));
+            }
+            else if (entry.getKey() == "d0" || entry.getKey() == "d9" || entry.getKey() == "g0" || entry.getKey() == "g9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.BISHOP));
+            }
+            else if (entry.getKey() == "e0" || entry.getKey() == "e9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.QUEEN));
+            }
+            else if (entry.getKey() == "f0" || entry.getKey() == "f9") {
+                game.getCellFigureMap().put((Cell) entry.getValue(), new Figure(FigureType.KING));
+            }
+            else game.getCellFigureMap().put((Cell) entry.getValue(), null);
+        }
+    }
+
     public Game createNewGame(int playerCount) {
         Map<String, Cell> chessBoard = createChessBoard();
         Game game = new Game(chessBoard);
         List<Player> players = addPlayers(playerCount);
-        giveFigureToPlayers(game, players);
+        figuresToBoard(game);
+
 
 
         return game;
@@ -252,7 +313,7 @@ public class GameService {
 
     private void doStep(Game game) {
         Player p = null;
-        List<Figure> figures = game.getPlayerListMap1().get(p);
+        List<Figure> figures = game.getPlayerListOfFiguresMap().get(p);
         for(Figure f: figures) {
             IFigureService service = figureServiceMap.get(f.getType());
             List<Cell> cellsToMove = service.getVariants(game, f);
