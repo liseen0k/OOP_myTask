@@ -240,10 +240,10 @@ public class GameService {
         game.getPlayerListOfFiguresMap().put(players.get(1), player2);
     }
 
-    private Map<Figure, Cell> figureOnBoard(Map<Player, Figure> playerMap, Map<String, Cell> cellMap) {
-        Map<Figure, Cell> figures = new HashMap<>();
-        
-        return figures;
+    private void setFigureToCellMap(Game game) {
+        for (Map.Entry entry: game.getCellFigureMap().entrySet()) {
+            game.getFigureCellMap().put((Figure) entry.getValue(), (Cell) entry.getKey());
+        }
     }
 
     private void figuresToBoard(Game game) {
@@ -285,6 +285,7 @@ public class GameService {
         Game game = new Game(chessBoard);
         List<Player> players = addPlayers(playerCount);
         figuresToBoard(game);
+        setFigureToCellMap(game);
         giveFigureToPlayers(game, players);
         return game;
     }

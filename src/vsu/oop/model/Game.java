@@ -15,7 +15,11 @@ public class Game {
     private Map<Player, List<Figure>> playerListOfFiguresMap = new HashMap<>();
 
 
-    private Map<Figure, Cell> m2;
+    public Map<Figure, Cell> getFigureCellMap() {
+        return figureCellMap;
+    }
+
+    private Map<Figure, Cell> figureCellMap;
 
     public Map<String, Cell> getBoard() {
         return board;
