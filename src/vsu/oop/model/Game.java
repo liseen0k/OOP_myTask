@@ -1,8 +1,6 @@
 package vsu.oop.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
 
@@ -17,6 +15,12 @@ public class Game {
 
     public Map<Figure, Cell> getFigureCellMap() {
         return figureCellMap;
+    }
+
+    private Deque playerQueue;
+
+    public Deque getPlayerQueue() {
+        return playerQueue;
     }
 
     private Map<Figure, Cell> figureCellMap;

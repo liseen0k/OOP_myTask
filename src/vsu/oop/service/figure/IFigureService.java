@@ -11,5 +11,5 @@ public interface IFigureService {
 
     List<Cell> getVariants(Game game, Figure figure);
 
-    Step moveFigure(Game game, Figure figure, Cell target);
+    Step moveFigure(Game game, Figure figure, List<Cell> variants);
 }

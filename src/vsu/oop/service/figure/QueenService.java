@@ -14,7 +14,7 @@ public class QueenService implements IFigureService {
     }
 
     @Override
-    public Step moveFigure(Game game, Figure figure, Cell target) {
+    public Step moveFigure(Game game, Figure figure, List<Cell> variants) {
         return null;
     }
 }
