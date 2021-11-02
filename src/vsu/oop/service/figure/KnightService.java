@@ -31,7 +31,7 @@ public class KnightService implements IFigureService{ // не понятно к�
         return variants;
     }
 
-    public int rnd(int size) {
+    private int rnd(int size) {
        return (int) Math.random() * ++size;
     }
 
