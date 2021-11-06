@@ -24,24 +24,31 @@ public class BishopService implements IFigureService{
         List<Cell> variants = new ArrayList<>();
         Cell thisCell = game.getFigureCellMap().get(figure);
         Cell target = game.getFigureCellMap().get(figure);
-        while (game.getCellFigureMap().get(target) == null) {
+        List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
+        for (Figure f: listOfFigure) {
+        while (game.getCellFigureMap().get(target) == null ||
+                !game.getCellFigureMap().get(target).equals(f)) {
             target = move(Direction.NORTH_WEST, target);
             variants.add(target);
         } // исправить на do while
         target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
+        while (game.getCellFigureMap().get(target) == null ||
+                !game.getCellFigureMap().get(target).equals(f)) {
             target = move(Direction.NORTH_EAST, target);
             variants.add(target);
         }
         target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
+        while (game.getCellFigureMap().get(target) == null ||
+                !game.getCellFigureMap().get(target).equals(f)) {
             target = move(Direction.SOUTH_WEST, target);
             variants.add(target);
         }
         target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
+        while (game.getCellFigureMap().get(target) == null ||
+                !game.getCellFigureMap().get(target).equals(f)) {
             target = move(Direction.SOUTH_EAST, target);
             variants.add(target);
+            }
         }
         return variants; // сократить  код?
     }

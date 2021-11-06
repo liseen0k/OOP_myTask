@@ -24,24 +24,31 @@ public class RookService implements IFigureService{
         List<Cell> variants = new ArrayList<>();
         Cell thisCell = game.getFigureCellMap().get(figure);
         Cell target = game.getFigureCellMap().get(figure);
-        while (game.getCellFigureMap().get(target) == null) {
-            target = move(Direction.EAST, target);
-            variants.add(target);
-        } // исправить на do while
-        target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
-            target = move(Direction.WEST, target);
-            variants.add(target);
-        }
-        target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
-            target = move(Direction.NORTH, target);
-            variants.add(target);
-        }
-        target = thisCell;
-        while (game.getCellFigureMap().get(target) == null) {
-            target = move(Direction.SOUTH, target);
-            variants.add(target);
+        List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
+        for (Figure f: listOfFigure) {
+            while (game.getCellFigureMap().get(target) == null ||
+                    !game.getCellFigureMap().get(target).equals(f)) { // добавить проверку фигуры игрока из конца очереди, в коне можно переписать
+                target = move(Direction.EAST, target);
+                variants.add(target);
+            }
+            target = thisCell;
+            while (game.getCellFigureMap().get(target) == null ||
+                    !game.getCellFigureMap().get(target).equals(f)) {
+                target = move(Direction.WEST, target);
+                variants.add(target);
+            }
+            target = thisCell;
+            while (game.getCellFigureMap().get(target) == null ||
+                    !game.getCellFigureMap().get(target).equals(f)) {
+                target = move(Direction.NORTH, target);
+                variants.add(target);
+            }
+            target = thisCell;
+            while (game.getCellFigureMap().get(target) == null ||
+                    !game.getCellFigureMap().get(target).equals(f)) {
+                target = move(Direction.SOUTH, target);
+                variants.add(target);
+            }
         }
         return variants; // сократить  код?
     }
