@@ -30,53 +30,61 @@ public class QueenService implements IFigureService {
         Cell target = game.getFigureCellMap().get(figure);
         List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
         for (Figure f: listOfFigure) {
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+            do {
                 target = move(Direction.EAST, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.WEST, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.NORTH, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.SOUTH, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.NORTH_WEST, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.NORTH_EAST, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.SOUTH_WEST, target);
                 variants.add(target);
             }
-            target = thisCell;
             while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f)) {
+                    !game.getCellFigureMap().get(target).equals(f));
+            target = thisCell;
+            do {
                 target = move(Direction.SOUTH_EAST, target);
                 variants.add(target);
             }
+            while (game.getCellFigureMap().get(target) == null ||
+                    !game.getCellFigureMap().get(target).equals(f));
         }
         return variants; // сократить  код?
     }
