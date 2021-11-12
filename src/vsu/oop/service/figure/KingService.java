@@ -26,7 +26,6 @@ public class KingService implements IFigureService {
     @Override
     public List<Cell> getVariants(Game game, Figure figure) {
         List<Cell> variants = new ArrayList<>();
-        Cell thisCell = game.getFigureCellMap().get(figure);
         Cell target = game.getFigureCellMap().get(figure);
         List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
         for (Figure f : listOfFigure) {

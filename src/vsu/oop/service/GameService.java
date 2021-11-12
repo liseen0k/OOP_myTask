@@ -32,47 +32,47 @@ public class GameService {
         List<List<Cell>> board = new ArrayList<>();
         board.add(down);
 
-        down.get(0).setSouth_west(cell4.get(0));
-        cell4.get(0).setNorth_east(down.get(0));
+        down.get(0).getDirections().put(Direction.SOUTH_WEST,cell4.get(0));
+        cell4.get(0).getDirections().put(Direction.NORTH_EAST,down.get(0));
 
-        down.get(9).setSouth_east(cell4.get(1));
-        cell4.get(1).setNorth_west(down.get(9));
+        down.get(9).getDirections().put(Direction.SOUTH_EAST,cell4.get(1));
+        cell4.get(1).getDirections().put(Direction.NORTH_WEST,down.get(9));
 
        for (int i = 0; i < 9; i++) {
            List<Cell> up = createHorizontalLine(10);
 
-           up.get(0).setSouth(down.get(0));
-           down.get(0).setNorth(up.get(0));
+           up.get(0).getDirections().put(Direction.SOUTH,down.get(0));
+           down.get(0).getDirections().put(Direction.NORTH,up.get(0));
 
-           up.get(0).setSouth_east(down.get(1));
-           down.get(1).setNorth_west(up.get(1));
+           up.get(0).getDirections().put(Direction.SOUTH_EAST,down.get(1));
+           down.get(1).getDirections().put(Direction.NORTH_WEST,up.get(1));
 
            for (int j = 1; j < 9; j++) {
-               up.get(j).setSouth_west(down.get(j-1));
-               down.get(j-1).setNorth_east(up.get(j));
+               up.get(j).getDirections().put(Direction.SOUTH_WEST,down.get(j-1));
+               down.get(j-1).getDirections().put(Direction.NORTH_EAST,up.get(j));
 
-               up.get(j).setSouth(down.get(j));
-               down.get(j).setNorth(up.get(j));
+               up.get(j).getDirections().put(Direction.SOUTH,down.get(j));
+               down.get(j).getDirections().put(Direction.NORTH,up.get(j));
 
-               up.get(j).setSouth_east(down.get(j+1));
-               down.get(j+1).setNorth_west(up.get(j));
+               up.get(j).getDirections().put(Direction.SOUTH_EAST,down.get(j+1));
+               down.get(j+1).getDirections().put(Direction.NORTH_WEST,up.get(j));
            }
 
-           up.get(9).setSouth(down.get(9));
-           down.get(9).setNorth(up.get(9));
+           up.get(9).getDirections().put(Direction.SOUTH,down.get(9));
+           down.get(9).getDirections().put(Direction.NORTH,up.get(9));
 
-           up.get(9).setSouth_west(down.get(8));
-           down.get(8).setNorth_east(up.get(9));
+           up.get(9).getDirections().put(Direction.SOUTH_WEST,down.get(8));
+           down.get(8).getDirections().put(Direction.NORTH_EAST,up.get(9));
 
            board.add(up);
            down = up;
 
        }
-        down.get(0).setNorth_east(cell4.get(2));
-        cell4.get(2).setSouth_west(down.get(0));
+        down.get(0).getDirections().put(Direction.NORTH_EAST,cell4.get(2));
+        cell4.get(2).getDirections().put(Direction.SOUTH_WEST,down.get(0));
 
-        down.get(9).setNorth_west(cell4.get(3));
-        cell4.get(3).setSouth_east(down.get(9));
+        down.get(9).getDirections().put(Direction.NORTH_WEST,cell4.get(3));
+        cell4.get(3).getDirections().put(Direction.NORTH_EAST,down.get(9));
 
         board.add(cell4);
         return board;
@@ -167,11 +167,11 @@ public class GameService {
 
     private List<Cell> connectCellsHorizontal(List<Cell> cellList) {
         for (int i = 1; i < cellList.size()-1; i++) {
-            cellList.get(i).setEast(cellList.get(i+1));
-            cellList.get(i).setWest(cellList.get(i-1));
+            cellList.get(i).getDirections().put(Direction.EAST,cellList.get(i+1));
+            cellList.get(i).getDirections().put(Direction.WEST,cellList.get(i-1));
         }
-        cellList.get(0).setEast(cellList.get(1));
-        cellList.get(cellList.size()-1).setWest(cellList.get(cellList.size()-2));
+        cellList.get(0).getDirections().put(Direction.EAST,cellList.get(1));
+        cellList.get(cellList.size()-1).getDirections().put(Direction.WEST,cellList.get(cellList.size()-2));
         return cellList;
     }
 

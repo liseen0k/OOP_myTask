@@ -1,22 +1,23 @@
 package vsu.oop.service.figure;
 
+import vsu.oop.exception.ChessException;
 import vsu.oop.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class QueenService implements IFigureService {
 
-    private Cell move(Direction direction, Cell thisCell) {
-        if (direction == Direction.NORTH_EAST) thisCell = thisCell.getNorth_east();
-        if (direction == Direction.NORTH_WEST) thisCell = thisCell.getNorth_west();
-        if (direction == Direction.SOUTH_EAST) thisCell = thisCell.getSouth_east();
-        if (direction == Direction.SOUTH_WEST) thisCell = thisCell.getSouth_west();
-        if (direction == Direction.EAST) thisCell = thisCell.getEast();
-        if (direction == Direction.NORTH) thisCell = thisCell.getNorth();
-        if (direction == Direction.WEST) thisCell = thisCell.getWest();
-        if (direction == Direction.SOUTH) thisCell = thisCell.getSouth();
-        return thisCell;
+
+    private final List<Direction> QUEEN_DIRECTIONS = List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.EAST,
+            Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST);
+
+    private Cell move(Direction direction, Cell thisCell) throws ChessException {
+        if (!QUEEN_DIRECTIONS.contains(direction)) {
+            throw new ChessException("Incorrect direction");
+        }
+        return thisCell.getDirections().get(direction);
     }
 
     private int rnd(int size) {
@@ -29,64 +30,21 @@ public class QueenService implements IFigureService {
         Cell thisCell = game.getFigureCellMap().get(figure);
         Cell target = game.getFigureCellMap().get(figure);
         List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
-        for (Figure f: listOfFigure) {
+        for(Direction d: QUEEN_DIRECTIONS) {
+            Figure f = game.getCellFigureMap().get(target);
             do {
-                target = move(Direction.EAST, target);
-                variants.add(target);
+                try {
+                    target = move(d, target);
+                    variants.add(target);
+                    f = game.getCellFigureMap().get(target);
+                } catch (ChessException e) {
+                    e.printStackTrace();
+                }
             }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
+            while (f == null || !listOfFigure.contains(f));
             target = thisCell;
-            do {
-                target = move(Direction.WEST, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.NORTH, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.SOUTH, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.NORTH_WEST, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.NORTH_EAST, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.SOUTH_WEST, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
-            target = thisCell;
-            do {
-                target = move(Direction.SOUTH_EAST, target);
-                variants.add(target);
-            }
-            while (game.getCellFigureMap().get(target) == null ||
-                    !game.getCellFigureMap().get(target).equals(f));
         }
-        return variants; // сократить  код?
+        return variants;
     }
 
     @Override
@@ -102,8 +60,7 @@ public class QueenService implements IFigureService {
             game.getFigureCellMap().put(figure, step.getNewCell());
         }
         else {
-            List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast());
-            listOfFigure.remove(game.getCellFigureMap().get(step.getNewCell()));
+            game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast()).remove(game.getCellFigureMap().get(step.getNewCell()));
             game.getCellFigureMap().put(step.getNewCell(), figure);
             game.getFigureCellMap().put(figure, step.getNewCell());
         }
