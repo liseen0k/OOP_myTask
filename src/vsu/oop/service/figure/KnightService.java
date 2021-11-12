@@ -1,9 +1,6 @@
 package vsu.oop.service.figure;
 
-import vsu.oop.model.Cell;
-import vsu.oop.model.Figure;
-import vsu.oop.model.Game;
-import vsu.oop.model.Step;
+import vsu.oop.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +10,10 @@ public class KnightService implements IFigureService{ // не понятно к�
     public List<Cell> getVariants(Game game, Figure figure) {
         List<Cell> variants = new ArrayList<>();
         Cell cellVar = game.getFigureCellMap().get(figure);
-        Cell cellTarget1 = cellVar.getNorth().getNorth_east();
-        Cell cellTarget2 = cellVar.getNorth().getNorth_west();
-        Cell cellTarget3 = cellVar.getSouth().getSouth_east();
-        Cell cellTarget4 = cellVar.getSouth().getSouth_west();
+        Cell cellTarget1 = cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_EAST);
+        Cell cellTarget2 = cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_WEST);
+        Cell cellTarget3 = cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_EAST);
+        Cell cellTarget4 = cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_WEST);
         List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
         for (Figure f: listOfFigure) {
             if (cellTarget1 == null ||
@@ -48,8 +45,7 @@ public class KnightService implements IFigureService{ // не понятно к�
             game.getFigureCellMap().put(figure, step.getNewCell());
         }
         else {
-            List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast());
-            listOfFigure.remove(game.getCellFigureMap().get(step.getNewCell()));
+            game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast()).remove(game.getCellFigureMap().get(step.getNewCell()));
             game.getCellFigureMap().put(step.getNewCell(), figure);
             game.getFigureCellMap().put(figure, step.getNewCell());
         }

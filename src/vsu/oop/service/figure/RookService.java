@@ -57,8 +57,7 @@ public class RookService implements IFigureService{
             game.getFigureCellMap().put(figure, step.getNewCell());
         }
         else {
-            List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast());
-            listOfFigure.remove(game.getCellFigureMap().get(step.getNewCell()));
+            game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().getLast()).remove(game.getCellFigureMap().get(step.getNewCell()));
             game.getCellFigureMap().put(step.getNewCell(), figure);
             game.getFigureCellMap().put(figure, step.getNewCell());
         }
