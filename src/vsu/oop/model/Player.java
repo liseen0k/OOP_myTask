@@ -19,4 +19,8 @@ public class Player {
     public int getStepCount() {
         return stepCount;
     }
+
+    public void setStepCount(int stepCount) {
+        this.stepCount = stepCount;
+    }
 }

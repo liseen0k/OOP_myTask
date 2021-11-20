@@ -1,9 +1,7 @@
 package vsu.oop.service;
 
 import vsu.oop.model.*;
-import vsu.oop.service.figure.IFigureService;
-import vsu.oop.service.figure.PawnService;
-import vsu.oop.service.figure.QueenService;
+import vsu.oop.service.figure.*;
 
 import java.util.*;
 
@@ -15,7 +13,12 @@ public class GameService {
 
         figureServiceMap.put(FigureType.PAWN, new PawnService());
         figureServiceMap.put(FigureType.QUEEN, new QueenService());
-        //figureServiceMap.put(FigureType.PAWN, new PawnService());
+        figureServiceMap.put(FigureType.KING, new KingService());
+        figureServiceMap.put(FigureType.ROOK, new RookService());
+        figureServiceMap.put(FigureType.KNIGHT, new KnightService());
+        figureServiceMap.put(FigureType.BISHOP, new BishopService());
+        figureServiceMap.put(FigureType.CHAMPION, new ChampionService());
+        figureServiceMap.put(FigureType.WIZARD, new WizardService());
     }
 
 
@@ -190,6 +193,7 @@ public class GameService {
         for (Map.Entry entry: game.getCellFigureMap().entrySet()) {
             for (char i = 'a'; i <= 'j'; i++) {
                 String d = i + "0";
+                if (entry.getKey() == "f0") game.getPlayerKing().put((Player) game.getPlayerQueue().getFirst(), (Figure) entry.getValue());
                 if (entry.getKey() == d) {
                     figureList.add((Figure) entry.getValue());
                    break;
@@ -213,6 +217,7 @@ public class GameService {
         for (Map.Entry entry: game.getCellFigureMap().entrySet()) {
             for (char i = 'a'; i <= 'j'; i++) {
                 String d = i + "9";
+                if (entry.getKey() == "f9") game.getPlayerKing().put((Player) game.getPlayerQueue().getLast(), (Figure) entry.getValue());
                 if (entry.getKey() == d) {
                     figureList.add((Figure) entry.getValue());
                     break;
@@ -287,11 +292,13 @@ public class GameService {
         figuresToBoard(game);
         setFigureToCellMap(game);
         giveFigureToPlayers(game, players);
+        game.getPlayerQueue().add(players.get(0));
+        game.getPlayerQueue().add(players.get(1));
         return game;
     }
 
     public void play(Game game) {
-        while (GameState.NORMAL.equals(getState())) {
+        while (GameState.NORMAL.equals(getState(game))) {
             doStep(game);
             String gameAsString = printGame(game);
             System.out.println(gameAsString);
@@ -299,24 +306,34 @@ public class GameService {
     }
 
     public String printGame(Game game) {
-        return "";
+        List<String> gameAsString = new ArrayList<>();
+        Player p = (Player) game.getPlayerQueue().getFirst();
+        for (Step s: game.getStepList()) {
+            gameAsString.add("Player " + p.getName() + s.getOldCell().getName() + " --> " + s.getNewCell().getName() + ";" + "\n");
+        }
+        return gameAsString.toString();
     }
 
     private void doStep(Game game) {
-        Player p = null;
+        Player p = (Player) game.getPlayerQueue().pollFirst();
         List<Figure> figures = game.getPlayerListOfFiguresMap().get(p);
         for(Figure f: figures) {
             IFigureService service = figureServiceMap.get(f.getType());
             List<Cell> cellsToMove = service.getVariants(game, f);
-            if (!cellsToMove.isEmpty()) {
-                cellsToMove.get(0);
-                //make move
-                break;
+           if (!cellsToMove.isEmpty()) {
+               Step step = service.moveFigure(game, f, cellsToMove);
+               p.setStepCount(p.getStepCount()+1);
+               game.getStepList().add(step);
+               break;
             }
         }
+        game.getPlayerQueue().addLast(p);
     }
 
-    private GameState getState() {
-        return null;
+    private GameState getState(Game game) {
+        Player curPlayer = (Player) game.getPlayerQueue().getFirst();
+        Figure king = game.getPlayerKing().get(curPlayer);
+        if (!game.getPlayerListOfFiguresMap().get(curPlayer).contains(king)) return GameState.MAT;
+        return GameState.NORMAL;
     }
 }

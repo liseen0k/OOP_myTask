@@ -4,38 +4,51 @@ import java.util.*;
 
 public class Game {
 
+
     private Cell leftBottom;
 
+    private List<Step> stepList;
+
     private Map<String, Cell> board;
+
+    private Map<Player, Figure> playerKing;
+
+    private Deque playerQueue;
+
+    private Map<Figure, Cell> figureCellMap;
+
+    private Map<Cell, Figure> cellFigureMap;
 
     private final Map<Player, Direction> preferredDirection = new HashMap<>();
 
     private Map<Player, List<Figure>> playerListOfFiguresMap = new HashMap<>();
 
+    public Game(Map<String, Cell> board) {
+        this.board = board;
+    }
+
+    public Map<Player, Figure> getPlayerKing() {
+        return playerKing;
+    }
+
+    public List<Step> getStepList() {
+        return stepList;
+    }
 
     public Map<Figure, Cell> getFigureCellMap() {
         return figureCellMap;
     }
 
-    private Deque playerQueue;
 
     public Deque getPlayerQueue() {
         return playerQueue;
     }
 
-    private Map<Figure, Cell> figureCellMap;
 
     public Map<String, Cell> getBoard() {
         return board;
     }
 
-    private Map<Cell, Figure> cellFigureMap;
-
-    private List<Step> steps;
-
-    public Game(Map<String, Cell> board) {
-        this.board = board;
-    }
 
     public Cell getLeftBottom() {
         return leftBottom;
