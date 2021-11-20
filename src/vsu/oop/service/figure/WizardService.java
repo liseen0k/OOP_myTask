@@ -21,38 +21,33 @@ public class WizardService implements IFigureService{
         return (int) Math.random() * ++size;
     }
 
+    private List<Cell> createCellTarget(Game game, Figure figure) {
+        List<Cell> cellsTarget = new ArrayList<>();
+        Cell cellVar = game.getFigureCellMap().get(figure);
+        cellsTarget.add(cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_EAST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_WEST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_EAST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_WEST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.WEST).getDirections().get(Direction.WEST).getDirections().get(Direction.NORTH_WEST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.WEST).getDirections().get(Direction.WEST).getDirections().get(Direction.SOUTH_WEST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.EAST).getDirections().get(Direction.EAST).getDirections().get(Direction.NORTH_EAST));
+        cellsTarget.add(cellVar.getDirections().get(Direction.EAST).getDirections().get(Direction.EAST).getDirections().get(Direction.SOUTH_EAST));
+        return cellsTarget;
+    }
+
     @Override
     public List<Cell> getVariants(Game game, Figure figure) {
         List<Cell> variants = new ArrayList<>();
         Cell cellVar = game.getFigureCellMap().get(figure);
-        Cell cellTarget1 = cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_EAST);
-        Cell cellTarget2 = cellVar.getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH).getDirections().get(Direction.NORTH_WEST);
-        Cell cellTarget3 = cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_EAST);
-        Cell cellTarget4 = cellVar.getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH).getDirections().get(Direction.SOUTH_WEST);
-        Cell cellTarget5 = cellVar.getDirections().get(Direction.WEST).getDirections().get(Direction.WEST).getDirections().get(Direction.NORTH_WEST);
-        Cell cellTarget6 = cellVar.getDirections().get(Direction.WEST).getDirections().get(Direction.WEST).getDirections().get(Direction.SOUTH_WEST);
-        Cell cellTarget7 = cellVar.getDirections().get(Direction.EAST).getDirections().get(Direction.EAST).getDirections().get(Direction.NORTH_EAST);
-        Cell cellTarget8 = cellVar.getDirections().get(Direction.EAST).getDirections().get(Direction.EAST).getDirections().get(Direction.SOUTH_EAST);
+        List<Cell> targets = createCellTarget(game, figure);
 
         List<Figure> listOfFigure = game.getPlayerListOfFiguresMap().get(game.getPlayerQueue().peek());
         for (Figure f: listOfFigure) {
-            if (cellTarget1 == null ||
-                    !game.getCellFigureMap().get(cellTarget1).equals(f)) variants.add(cellTarget1);
-            else if (cellTarget2 == null ||
-                    !game.getCellFigureMap().get(cellTarget2).equals(f)) variants.add(cellTarget2);
-            else if (cellTarget3 == null ||
-                    !game.getCellFigureMap().get(cellTarget3).equals(f)) variants.add(cellTarget3);
-            else if (cellTarget4 == null ||
-                    !game.getCellFigureMap().get(cellTarget4).equals(f)) variants.add(cellTarget4);
-            else if (cellTarget5 == null ||
-                    !game.getCellFigureMap().get(cellTarget5).equals(f)) variants.add(cellTarget5);
-            else if (cellTarget6 == null ||
-                    !game.getCellFigureMap().get(cellTarget6).equals(f)) variants.add(cellTarget6);
-            else if (cellTarget7 == null ||
-                    !game.getCellFigureMap().get(cellTarget7).equals(f)) variants.add(cellTarget7);
-            else if (cellTarget8 == null ||
-                    !game.getCellFigureMap().get(cellTarget8).equals(f)) variants.add(cellTarget8);
-            else for (Direction d: WIZARD_DIRECTIONS) {
+            for (Cell c: targets) {
+                if (c == null ||
+                        !game.getCellFigureMap().get(c).equals(f)) variants.add(c);
+            }
+            for (Direction d: WIZARD_DIRECTIONS) {
                     try {
                         cellVar = move(d, cellVar);
                         if (f == null || !listOfFigure.contains(f)) variants.add(cellVar);
