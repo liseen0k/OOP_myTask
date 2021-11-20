@@ -300,9 +300,9 @@ public class GameService {
     public void play(Game game) {
         while (GameState.NORMAL.equals(getState(game))) {
             doStep(game);
+        }
             String gameAsString = printGame(game);
             System.out.println(gameAsString);
-        }
     }
 
     public String printGame(Game game) {
